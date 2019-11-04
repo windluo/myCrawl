@@ -30,7 +30,7 @@ async function getData(url) {
   // 百度图片会多返回一条空数据，实际只有30条有效数据
   countObj.total = data.length - 1;
   if (!data.length) {
-    console.log("*************没有找到查询图片***********");
+    console.log("*************当前条件没有图片***********");
     return;
   }
 
@@ -54,8 +54,10 @@ async function getImageFromList(target, index) {
     }
   });
   //通过管道的方式用fs模块将图片写到本地的images文件下
-  request(imgSrc).pipe(fs.createWriteStream("./images/" + imgfile));
-  myEE.emit("successedCrawl");
+  if (imgSrc) {
+    request(imgSrc).pipe(fs.createWriteStream("./images/" + imgfile));
+    myEE.emit("successedCrawl");
+  }
 
   await sleep(Math.random() * 2 * 1000);
 }

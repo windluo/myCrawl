@@ -4,6 +4,7 @@
 
 const EventEmitter = require("events");
 const myEE = new EventEmitter();
+const colors = require('colors')
 
 let countObj = {
   total: 0,
@@ -22,15 +23,14 @@ myEE.on("failedCrawl", function() {
 });
 
 myEE.on("endCrawl", function() {
-  console.log(`————————本次共抓取数据：${countObj.total}条————————`);
-  console.log(`成功：${countObj.successedNum}条`);
-  console.log(`失败：${countObj.failedNum}条`);
+  console.log((`————————本次抓取结束，共抓取数据：${countObj.total}条————————`).cyan);
+  console.log((`  成功：${countObj.successedNum}条`).green);
+  console.log((`  失败：${countObj.failedNum}条`).red);
 
   if (countObj.failedNum === 0) {
     console.log("完美！全部数据抓取成功！");
   } else {
-    // TODO：错误原因写入日志文件，待定
-    console.log("本次有数据抓取失败，错误原因请到 ./logs 目录下查看");
+    console.log(`本次有${countObj.failedNum}条数据抓取失败，错误原因请到 ./logs 目录下查看`);
   }
 });
 
